@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -42,8 +43,17 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [pathname])
 
   React.useEffect(() => {
+    console.log(
+      'NEXT_PUBLIC_SLACK_CLIENT_ID',
+      process.env.NEXT_PUBLIC_SLACK_CLIENT_ID,
+    )
+    console.log(
+      'NEXT_PUBLIC_SLACK_CLIENT_ID',
+      process.env.NEXT_PUBLIC_SLACK_CLIENT_SECRET,
+    )
+
     if (pathname === '/') {
-      push('/books')
+      // push('/books')
     }
   }, [pathname, push])
 
@@ -52,17 +62,19 @@ const App = ({ Component, pageProps }: AppProps) => {
       {typeof window === 'undefined' ? null : (
         <Provider store={store}>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <div className={classes.root}>
-              {shouldShowSidebar ? <Sidebar /> : <HeaderLogo />}
-              <div className={classes.contentWrapper}>
-                <main className={classes.content}>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </main>
+            <SessionProvider>
+              <CssBaseline />
+              <div className={classes.root}>
+                {shouldShowSidebar ? <Sidebar /> : <HeaderLogo />}
+                <div className={classes.contentWrapper}>
+                  <main className={classes.content}>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </main>
+                </div>
               </div>
-            </div>
+            </SessionProvider>
           </ThemeProvider>
         </Provider>
       )}
