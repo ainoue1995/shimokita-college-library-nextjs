@@ -18,12 +18,12 @@ export const getBookInfoAPI = (
  * @returns
  */
 export const getAllBooksDataAPI = async () => {
-  return axios.get('/v1/books/all')
+  return (await axios.get('/v1/books/all')).data
 }
 
 /**
  * スプレッドシートに1件登録するAPI
  */
 export const addBook = async (newBook: Book) => {
-  axios.get('/v1/books/book')
+  return (await axios.post('/v1/books/book')).data
 }

@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { ActiveLink } from '~/components/ActiveLink'
+import { CommonImage } from './CommonImage'
 
 const drawerWidth = 320
 
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 const guideList = [
-  { text: 'ガイドレシピ', path: '/index/', icon: <MenuBookIcon /> },
+  { text: '本棚', path: '/index/', icon: <MenuBookIcon /> },
   { text: 'ガイドレシピ', path: '/index/', icon: <MenuBookIcon /> },
 ]
 
@@ -86,7 +87,11 @@ export const Sidebar: React.VFC = () => {
       anchor="left"
     >
       <div className={classes.projectWrap}>
-        <p className={classes.projectName}>test</p>
+        <CommonImage
+          src="/shimokita-college-logo.png"
+          width={200}
+          alt="SHIMOKITA-COLLEGE"
+        />
       </div>
       <List>
         <section className={classes.menuSection}>

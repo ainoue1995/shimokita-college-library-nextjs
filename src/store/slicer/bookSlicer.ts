@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '~/store/store'
 import { Book, SearchBook } from '../../interfaces/Book'
 import { getAllBooksDataAPI, getBookInfoAPI } from '../../lib/API'
@@ -36,9 +36,11 @@ export const fetchBooks = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const res = await getAllBooksDataAPI()
-      console.log('res', res)
 
-      return res
+      console.log('res.data', res.data)
+
+      dispatch(bookSlice.actions.setBooks(res.data))
+      return res.data
     } catch (err: any) {
       if (!err.response) throw err
       return rejectWithValue(err.response.data)
@@ -49,7 +51,13 @@ export const fetchBooks = createAsyncThunk(
 export const bookSlice = createSlice({
   name: 'books',
   initialState,
-  reducers: {},
+  reducers: {
+    setBooks: (state, action: PayloadAction<Book[]>) => {
+      console.log('action', action.payload)
+
+      state.books = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(searchBooks.pending, (state) => {
